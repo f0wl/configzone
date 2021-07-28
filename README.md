@@ -9,7 +9,11 @@ go run configzone.go [-v] [-j] path/to/sample.exe
 ```
 ### Screenshots
 
+The script itself, running in verbose mode and with JSON output enabled:
+
 ![Verbose Mode + JSON dump](img/tool.png)
+
+A JSON file with the extracted configuration:
 
 <p align="center">
 <img width="50%" height="50%" src="img/config-json.png">
@@ -76,7 +80,6 @@ This configuration extractor has been tested successfully with the following sam
 
 |                             SHA-256                              |                     Sample                              |
 | :--------------------------------------------------------------: | :-----------------------------------------------------: |
-| 20b8d427a1603e1262b0c7d9a5119d0ea775cb69c690098ecd12a1037a443892 | [Malshare](https://malshare.com/sample.php?action=detail&hash=20b8d427a1603e1262b0c7d9a5119d0ea775cb69c690098ecd12a1037a443892) |
 | 3b84ae0d295425279c7636ff3de98950d1f6ebf935b79a23049842d85c9d905c | [Malshare](https://malshare.com/sample.php?action=detail&hash=3b84ae0d295425279c7636ff3de98950d1f6ebf935b79a23049842d85c9d905c) |
 | 4467e78c9356062cd52d9d9da5dee3329558749d764ef8c72c14977ae65d139e | [Malshare](https://malshare.com/sample.php?action=detail&hash=4467e78c9356062cd52d9d9da5dee3329558749d764ef8c72c14977ae65d139e) |
 | 4537fab9de768a668ab4e72ae2cce3169b7af2dd36a1723ddab09c04d31d61a5 | [Malshare](https://malshare.com/sample.php?action=detail&hash=4537fab9de768a668ab4e72ae2cce3169b7af2dd36a1723ddab09c04d31d61a5) |
