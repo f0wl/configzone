@@ -1,17 +1,19 @@
 # configzone
 
-Configzone is a static configuration extractor implemented in Golang for Warzone RAT (targeting Microsoft Windows). By default the script will print the extracted information to stdout (using the ```-v``` (verbose) flag is recommended for deeper investigations (hexdump, debug information in case of errors). It is also capable of dumping the malware configuration to disk as a JSON file.
+Configzone is a static configuration extractor implemented in Golang for Warzone RAT (targeting Microsoft Windows). By default the script will print the extracted information to stdout (using the ```-v``` (verbose) flag is recommended for deeper investigations (hexdump, debug information in case of errors). It is also capable of dumping the malware configuration to disk as a JSON file with the ```-j``` flag.
 
-## Usage 
+### Usage 
 
 ```shell
 go run configzone.go [-v] [-j] path/to/sample.exe
 ```
-## Screenshots
+### Screenshots
 
 ![Verbose Mode + JSON dump](img/tool.png)
 
-![JSON config file](img/config-json.png)
+<p align="center">
+<img width="50%" height="50%" src="img/config-json.png">
+</p>
 
 ## Sources/Credits
 
@@ -21,9 +23,50 @@ The analysis write-ups by [Domaintools](https://www.domaintools.com/resources/bl
 
 ## Configuration layout/contents
 
+The table below shows the keys used in the configuration of Warzone RAT. Some of these values could not be confirmed through reverse engineering the malware, yet. Multiple values were deducted from the screenshot created by Domaintools below and a [leaked version of Warzone RAT 1.84](https://github.com/ctoslab/WARZONE/blob/main/WARZONE%20RAT%201.84%20CRACKED/WARZONE%20RAT%201.84_crack.exe.config).
+
+<p align="center">
+<img width="25%" height="25%" src="https://www.domaintools.com/assets/blog_image/Warzone_1.0_RAT_Analysis_Blog_Image_3_.png">
+</p>
+
+
+|          Option             | Length in Bytes |    Color   |                     Value / Purpose                    | Confirmed via Reverse Engineering |
+| :-------------------------: |:---------------:|:----------:|:-----------------------------------------------------: |:---------------------------------:|
+|         Host offset         |        4        | Light Blue |        Length of the Command&Control Domain/IP         |                 ✅                |
+|           C2 Host           |        x        |   Green    |               Command&Control Domain/IP                |                 ✅                |
+|           C2 Port           |        2        |   Orange   |              Command&Control Server Port               |                 ✅                |
+|           Unknown           |        7        |    Red     |                  currently unknown                     |                 ❌                |
+|    Install name offset      |        4        | Light Blue |         Length of the Executable/Process name          |                 ✅                |
+|         Install name        |        x        |   Yellow   |               Executable/Process name                  |                 ✅                |
+|           Unknown           |        1        |    Red     |                  currently unknown                     |                 ❌                |
+|       Run Key Offset        |        4        | Light Blue |             Length of the Startup name                 |                 ✅                |
+|           Run Key           |        x        | Dark Blue  |            Startup name (Registry persistence)         |                 ✅                |
+|         Retry Delay         |        4        |   Purple   |            Time delay for C2 communication             |                 ✅                |
+|        Capabilities         |        x        |    Red     |              Enabled/Disabled features?                |                 ❌                |
+|    Random string offset     |        4        | Light Blue |             Length of the random string                |                 ❌                |
+|        Random string        |        20       |    Pink    |                  currently unknown                     |                 ❌                |
+
+<br>
+
+Below you can see three slightly different screenshots of config hexdumps created with configzone. I used the colors from the table above to highlight the configuration values. As you can see not every sample of Warzone RAT contains an "Install"- or "Startup name". Comparing the second and third sample also shows us that the section that I called "Capabilities" can vary in length. These differences could be due to reduced/extended feature sets with the Warzone RAT/POISON variants.
+
+<br>
+
+#### Sample 1
+
+SHA-256: ```4537fab9de768a668ab4e72ae2cce3169b7af2dd36a1723ddab09c04d31d61a5```
+
 ![Sample1](img/config-sample1.png)
 
+#### Sample 2
+
+SHA-256: ```dd0c8701d0d9e62c7b354e97e41cfec6aa85da269cfa6a6490ba68cce58b2385```
+
 ![Sample2](img/config-sample2.png)
+
+#### Sample 3
+
+SHA-256: ```90001df66b709685e2654b9395f8ce67e9b070cbaa624d001a7dd2adbc8d8eda```
 
 ![Sample3](img/config-sample3.png)
 
@@ -31,7 +74,7 @@ The analysis write-ups by [Domaintools](https://www.domaintools.com/resources/bl
 
 This configuration extractor has been tested successfully with the following samples:
 
-|                             SHA-256                              |                     Sample                    |
+|                             SHA-256                              |                     Sample                              |
 | :--------------------------------------------------------------: | :-----------------------------------------------------: |
 | 20b8d427a1603e1262b0c7d9a5119d0ea775cb69c690098ecd12a1037a443892 | [Malshare](https://malshare.com/sample.php?action=detail&hash=20b8d427a1603e1262b0c7d9a5119d0ea775cb69c690098ecd12a1037a443892) |
 | 3b84ae0d295425279c7636ff3de98950d1f6ebf935b79a23049842d85c9d905c | [Malshare](https://malshare.com/sample.php?action=detail&hash=3b84ae0d295425279c7636ff3de98950d1f6ebf935b79a23049842d85c9d905c) |
