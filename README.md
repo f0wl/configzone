@@ -1,3 +1,5 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/f0wl/configzone)](https://goreportcard.com/report/github.com/f0wl/configzone)
+
 # configzone
 
 Configzone is a static configuration extractor implemented in Golang for Warzone RAT (targeting Microsoft Windows). By default the script will print the extracted information to stdout (using the ```-v``` (verbose) flag is recommended for deeper investigations (hexdump, debug information in case of errors). It is also capable of dumping the malware configuration to disk as a JSON file with the ```-j``` flag.
