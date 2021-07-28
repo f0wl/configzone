@@ -213,7 +213,6 @@ func main() {
 	randomSize := int(binary.LittleEndian.Uint32(plaintext[counter : counter+4]))
 	counter += 4
 	cfg.Random = string(plaintext[counter : counter+randomSize])
-	counter += randomSize
 
 	//=========================================================================
 
